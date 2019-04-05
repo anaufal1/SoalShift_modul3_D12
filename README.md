@@ -21,7 +21,7 @@ fungsi faktorial
 
 ### Soal2
 
-
+Pertama kita membuat 4 file 2 untuk client dan 2 untuk pembeli. Kita gunakan shared memory untuk kedua server. dan kita pasangkan thread di server penjual. di client pembeli ditugaskan jika ada input tambah jumlah stock ditambahkan 1. untuk client pembeli jika ada input beli maka harus memeriksa kondisi stok barang jika <=0 makan mencetak transaksi gagal, hika >0 mencetak transaksi berhasil.
 
 </br></br>
 
