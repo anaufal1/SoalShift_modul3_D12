@@ -1,52 +1,57 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h> //library thread
+#include <pthread.h>
+#include <unistd.h>
+#include <string.h>
 
-void *factorial(void* p);
-int fact(int n);
+pthread_t thread[100];
+int t[100];
+int x;
 
-int main()
+void* factorial()
 {
-	int z;
-    pthread_t thread[100];
-    
-    for(z=0; ;z++){
+	int input = t[x];
+	int jawaban = 1;
 
-    pthread_create( &thread[z], NULL, factorial, NULL); 
-
-     pthread_join( thread[z], NULL);
-}
-    exit(EXIT_SUCCESS);
-}
-
-int fact(int n){
-if(n==0 || n==1)
-return 1;
-else 
-return n*fact(n-1);
-}
-
-void *factorial(void *p){
-int t;
-printf("berapa parallel:");
-scanf("%d",&t);	
-int i,j,num[t];
-int n = sizeof(num)/sizeof(num[0]);
-int temp;
-for(i=0 ;i<n; i++){
-scanf("%d", &num[i]);
-}
-for(i=0 ; i<n-1 ; i++){
-for(j=0 ; j<n-i-1 ; j++){
-		if(num[j] > num[j+1]){
-			temp = num[j];
-			num[j] = num[j+1];
-			num[j+1] = temp;
+	while(input > 0)
+	{
+		jawaban *= input;
+	 	input--;
 	}
-	}
-	}
-for(i=0 ; i<n ; i++){
-printf("%d! = %d\n",num[i],fact(num[i]));
+
+	printf("%d! = %d\n", t[x], jawaban);
 }
-pthread_exit(0);
+
+int main(int argc, char *argv[])
+{
+	int n = argc-1, a, b, iter, tukar;
+
+
+	for(iter = 0; iter < n; iter++)
+	{
+		t[iter] = atoi(argv[iter+1]);
+	}
+
+	
+  	for (iter = 0 ; iter < n-1; iter++)
+  	{
+    	  for (b = 0 ; b < n-a-1; b++)
+    	  {
+      		if (t[b] > t[b+1])
+      		{
+        	  tukar = t[b];
+        	  t[b] = t[b+1];
+        	  t[b+1] = tukar;
+      		}
+    	  }
+  	}
+
+
+	for(x = 0; x < n; x++)
+	{
+		pthread_create(&(thread[x]),NULL,&factorial,NULL);
+	 	pthread_join(thread[x], NULL);
+	}
+
+	return 0;
 }
